@@ -2,13 +2,14 @@ package com.ProductList.Product.Service;
 
 import com.ProductList.Product.DTO.CategoryDTO;
 import com.ProductList.Product.Entity.CategoryEntity;
+import com.ProductList.Product.Exception.CategoryAlreadyExistsException;
 import com.ProductList.Product.Mapper.CategoryMapper;
 import com.ProductList.Product.Repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -16,6 +17,10 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public  CategoryDTO createCategoryDTO(CategoryDTO categoryDto) {
+        Optional<CategoryEntity> optionalCategoryEntity= categoryRepository.findByCategoryName(categoryDto.getName());
+        if(optionalCategoryEntity.isPresent()){
+            throw  new CategoryAlreadyExistsException("Category already Exist");
+        }
         CategoryEntity categoryEntity= CategoryMapper.toCategoryEntity(categoryDto);
         categoryEntity= categoryRepository.save(categoryEntity);
         return CategoryMapper.toCategoryDTO(categoryEntity);

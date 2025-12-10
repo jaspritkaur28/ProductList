@@ -1,9 +1,9 @@
 package com.ProductList.Product.Controller;
 
 import com.ProductList.Product.DTO.CategoryDTO;
+import com.ProductList.Product.Exception.CategoryAlreadyExistsException;
 import com.ProductList.Product.Service.CategoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,14 @@ public class CategoryController {
     private CategoryService categoryService;
 //    Create Category
     @PostMapping
-            public ResponseEntity<CategoryDTO> createCategoryDTO(@RequestBody CategoryDTO categoryDto){
+            public ResponseEntity<?> createCategoryDTO(@RequestBody CategoryDTO categoryDto){
+//           try{
+//               CategoryDTO categorydto=categoryService.createCategoryDTO(categoryDto);
+//               return new ResponseEntity<>(categorydto, HttpStatus.CREATED);
+//           }catch(CategoryAlreadyExistsException e){
+//              return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+//           }
+
               return new ResponseEntity<>(categoryService.createCategoryDTO(categoryDto), HttpStatus.CREATED);
             }
 
