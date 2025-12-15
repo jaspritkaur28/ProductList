@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 public class CategoryService {
-    @Autowired
+//    @Autowired
     private CategoryRepository categoryRepository;
 
     public  CategoryDTO createCategoryDTO(CategoryDTO categoryDto) {
