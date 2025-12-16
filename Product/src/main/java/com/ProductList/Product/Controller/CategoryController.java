@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,12 +23,11 @@ public class CategoryController {
 
 
     private CategoryService categoryService;
-
+    //    Create Category
     @Operation(
             summary = "Create Category",
             description = "REST API to create Category"
     )
-//    Create Category
     @PostMapping
             public ResponseEntity<?> createCategoryDTO(@RequestBody CategoryDTO categoryDto){
 //           try{
@@ -65,9 +65,12 @@ public class CategoryController {
             description = "REST API to Delete Category by id"
     )
 //    Delete category by id
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/delete/{id}")
-    public void deleteCategoryById(@PathVariable Long id){
+    public String deleteCategoryById(@PathVariable Long id){
         categoryService.deleteCategoryById(id);
+        return "Successfully deleter";
     }
 
 }
